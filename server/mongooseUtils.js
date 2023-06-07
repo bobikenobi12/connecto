@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const uri = "mongodb+srv://borislavehubav:obichammuje@emfinder.jp3yf7f.mongodb.net/?retryWrites=true&w=majority";
 
@@ -35,7 +36,6 @@ const readUser = async (email) => {
 
         if (user) {
             // User found
-            console.log(user);
             return user;
         } else {
             // User not found
@@ -55,19 +55,21 @@ const createUser = async (name, password, email, isVolunteer) => {
         // Connect to the MongoDB database
         await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
+        encryptedPassword = await bcrypt.hash(password, 10);
+
         const user = new UserModel({
             name,
-            password,
+            password: encryptedPassword,
             email,
             isVolunteer,
         });
 
         await user.save();
         console.log('User saved successfully');
-        return true;
+        return user;
     } catch (error) {
         console.error('Error saving user:', error);
-        return false;
+        return null;
     } finally {
         // Disconnect from the MongoDB database
         mongoose.disconnect();

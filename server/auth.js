@@ -1,13 +1,16 @@
 const express = require('express');
 const cors = require('cors');
 
+
 const { readUser, createUser } = require('./mongooseUtils.js');
+const { authenticateToken, generateAccessToken, generateRefreshToken, removeRefreshToken } = require('./jwtUtils.js');
 const bcrypt = require('bcrypt');
 
 const router = express.Router();
 router.use(express.json());
 router.use(cors());
 
+const secretKey = 'your-secret-key';
 
 
 router.get('/', (req, res) => {
@@ -19,7 +22,7 @@ router.post('/login', (req, res) => {
     // parse req to json
     const { email, password } = req.body;
     if (email == null || password == null) {
-        res.status(400).send('Missing username or password');
+        res.status(400).send('Missing email or password');
         console.log(email, password);
         return;
     }
@@ -27,7 +30,24 @@ router.post('/login', (req, res) => {
         if (user) {
             // user found
             console.log(user);
-            res.send('User found');
+            const refreshToken = generateRefreshToken({ email });
+            const token = generateAccessToken({ email }, refreshToken);
+
+            bcrypt.compare(password, user.password).then((result) => {
+                if (result) {
+                    // password match
+                    console.log('User logged in');
+                    res.json({ token, refreshToken });
+                }
+                else {
+                    // password mismatch
+                    console.log('Wrong password');
+                    res.status(401).send('Wrong password');
+                }
+            }).catch((error) => {
+                console.error('Error comparing passwords:', error);
+                res.status(500).send('Error comparing passwords');
+            });
         } else {
             // user not found
             console.log('User not found');
@@ -49,7 +69,7 @@ router.post('/register', (req, res) => {
         console.log("nameCheck: ", !name, "passwordCheck: ", !password, "emailCheck: ", !email, "isVolunteerCheck: ", isVolunteer != null)
         return;
     }
-    readUser(name).then((user) => {
+    readUser(email).then((user) => {
         if (user) {
             // user already exists
             console.log('User already exists');
@@ -57,14 +77,23 @@ router.post('/register', (req, res) => {
         } else {
             // user does not exist
             try {
-                createUser(name, password, email, isVolunteer).then(() => {
+                createUser(name, password, email, isVolunteer).then((user) => {
+                    if (!user) {
+                        res.status(500).send('Error creating user');
+                        return;
+                    }
+
+                    refreshToken = generateRefreshToken({ email });
+                    token = generateAccessToken({ email }, refreshToken);
+
                     console.log('User created');
-                    res.send('User created');
+                    res.json({ token, refreshToken });
                 }
                 );
             }
             catch (error) {
                 console.error('Error creating user:', error);
+
                 res.status(500).send('Error creating user');
             }
         }
