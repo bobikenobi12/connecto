@@ -5,7 +5,7 @@ age = 10;
 isFemale = true;
 description = 'TIJRTIOE';
 location = 'Seria';
-languages = [["english", 5], ["hebrew", 5], ["russian", 5]];
+languages = [{ language: 'English', level: 'Native' }, { language: 'Hebrew', level: 'Native' }, { language: 'Russian', level: 'Native' }];
 interests = ['test'];
 studying = true;
 

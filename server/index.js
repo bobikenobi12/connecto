@@ -17,11 +17,11 @@ app.use('/kids', kidsRouter);
 app.post('/refreshAccessToken', (req, res) => {
     const { refreshToken } = req.body;
     if (refreshToken == null) {
-        return res.sendStatus(401);
+        return res.sendStatus(401).json({ message: 'No refresh token' });
     }
     accessToken = generateAccessToken(refreshToken);
     if (accessToken == null) {
-        return res.sendStatus(403);
+        return res.sendStatus(403).json({ message: 'Invalid refresh token' });
     }
     res.json({ accessToken });
 }

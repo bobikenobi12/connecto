@@ -18,9 +18,10 @@ const kidSchema = new mongoose.Schema({
     isFemale: Boolean,
     description: String,
     location: String,
-    languages: [[String, Number]],
+    languages: [{ language: String, level: String }],
     interests: [String],
-    stydying: Boolean,
+    studying: Boolean,
+    imageURL: String,
 });
 
 const UserModel = mongoose.model('User', userSchema);
@@ -76,7 +77,7 @@ const createUser = async (name, password, email, isVolunteer) => {
     }
 };
 
-const createKid = async (name, age, isFemale, description, location, languages, interests, studying) => {
+const createKid = async (name, age, isFemale, description, location, languages, interests, studying, imageURL) => {
     try {
         // Connect to the MongoDB database
         await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -90,6 +91,7 @@ const createKid = async (name, age, isFemale, description, location, languages, 
             languages,
             interests,
             studying,
+            imageURL,
         });
 
         await kid.save();
@@ -111,6 +113,8 @@ const readAllKids = async () => {
         await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
         const kids = await KidModel.find();
+
+        console.log(kids);
 
         if (kids) {
             // Kids found
