@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const { authenticateToken } = require('./jwtUtils');
+const { readAllKids } = require('./mongooseUtils');
 
 const router = express.Router();
 
@@ -11,7 +13,14 @@ router.get('/', (req, res) => {
 }
 );
 
-router.get('/all', (req, res) => {
-    res.send('all kids');
+router.get('/all', authenticateToken, (req, res) => {
+    readAllKids().then((kids) => {
+        res.json(kids);
+    }).catch((error) => {
+        console.error('Error reading kids:', error);
+        res.status(500).send('Error reading kids');
+    });
 }
 );
+
+module.exports = router;

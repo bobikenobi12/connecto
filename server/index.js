@@ -4,20 +4,22 @@ const cors = require('cors');
 const { authenticateToken, generateAccessToken, generateRefreshToken, removeRefreshToken } = require('./jwtUtils');
 
 const authRouter = require('./auth');
+const kidsRouter = require('./kids');
 
 const app = express();
 
 app.use(express.json());
 app.use(cors());
 app.use('/auth', authRouter);
+app.use('/kids', kidsRouter);
 
 
 app.post('/refreshAccessToken', (req, res) => {
-    const { refreshToken } = req.body.token;
+    const { refreshToken } = req.body;
     if (refreshToken == null) {
         return res.sendStatus(401);
     }
-    accessToken = generateAccessToken({ email }, refreshToken);
+    accessToken = generateAccessToken(refreshToken);
     if (accessToken == null) {
         return res.sendStatus(403);
     }

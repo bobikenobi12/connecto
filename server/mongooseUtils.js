@@ -76,6 +76,35 @@ const createUser = async (name, password, email, isVolunteer) => {
     }
 };
 
+const createKid = async (name, age, isFemale, description, location, languages, interests, studying) => {
+    try {
+        // Connect to the MongoDB database
+        await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+        const kid = new KidModel({
+            name,
+            age,
+            isFemale,
+            description,
+            location,
+            languages,
+            interests,
+            studying,
+        });
+
+        await kid.save();
+        console.log('Kid saved successfully');
+        return kid;
+    } catch (error) {
+        console.error('Error saving kid:', error);
+        return null;
+    } finally {
+        // Disconnect from the MongoDB database
+        mongoose.disconnect();
+    }
+};
+
+
 const readAllKids = async () => {
     try {
         // Connect to the MongoDB database
@@ -100,4 +129,4 @@ const readAllKids = async () => {
     }
 };
 
-module.exports = { readUser, createUser, readAllKids };
+module.exports = { readUser, createUser, readAllKids, createKid };
