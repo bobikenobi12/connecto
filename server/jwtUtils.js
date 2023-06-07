@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const secretKey = 'your-secret-key';
 
 refreshTokens = [];
+refreshTokensToEmail = {};
 
 function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization'];
@@ -21,22 +22,24 @@ function authenticateToken(req, res, next) {
     });
 }
 
-function generateAccessToken(user, refreshToken) {
+function generateAccessToken(refreshToken) {
     if (!refreshTokens.includes(refreshToken)) {
         return null;
     }
 
-    return jwt.sign(user, secretKey, { expiresIn: '1m' });
+    return jwt.sign(refreshTokensToEmail[refreshToken], secretKey, { expiresIn: '1m' });
 }
 
-function generateRefreshToken(user) {
-    token = jwt.sign(user, secretKey);
+function generateRefreshToken(email) {
+    token = jwt.sign(email, secretKey);
     refreshTokens.push(token);
+    refreshTokensToEmail[token] = email;
     return token;
 }
 
 function removeRefreshToken(token) {
     refreshTokens = refreshTokens.filter(t => t !== token);
+    delete refreshTokensToEmail[token];
 }
 
 

@@ -12,8 +12,8 @@ app.use(cors());
 app.use('/auth', authRouter);
 
 
-app.get('refreshAccessToken', (req, res) => {
-    const refreshToken = req.body.token;
+app.post('/refreshAccessToken', (req, res) => {
+    const { refreshToken } = req.body.token;
     if (refreshToken == null) {
         return res.sendStatus(401);
     }

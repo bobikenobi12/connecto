@@ -31,7 +31,7 @@ router.post('/login', (req, res) => {
             // user found
             console.log(user);
             const refreshToken = generateRefreshToken({ email });
-            const token = generateAccessToken({ email }, refreshToken);
+            const token = generateAccessToken(refreshToken);
 
             bcrypt.compare(password, user.password).then((result) => {
                 if (result) {
@@ -84,7 +84,7 @@ router.post('/register', (req, res) => {
                     }
 
                     refreshToken = generateRefreshToken({ email });
-                    token = generateAccessToken({ email }, refreshToken);
+                    token = generateAccessToken(refreshToken);
 
                     console.log('User created');
                     res.json({ token, refreshToken });
