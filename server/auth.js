@@ -41,7 +41,7 @@ router.get('/login', (req, res) => {
 }
 );
 
-router.get('/register', (req, res) => {
+router.post('/register', (req, res) => {
     const { name, password, email, isVolunteer } = req.body;
     if (name == null || password == null || email == null || isVolunteer == null) {
         res.status(400).send('Missing name, password, email or isVolunteer');
