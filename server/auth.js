@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
 }
 );
 
-router.get('/login', (req, res) => {
+router.post('/login', (req, res) => {
     // parse req to json
     const { email, password } = req.body;
     if (email == null || password == null) {
