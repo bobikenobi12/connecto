@@ -10,7 +10,20 @@ const userSchema = new mongoose.Schema({
     isVolunteer: Boolean,
 });
 
+const kidSchema = new mongoose.Schema({
+    id: String,
+    name: String,
+    age: Number,
+    isFemale: Boolean,
+    description: String,
+    location: String,
+    languages: [[String, Number]],
+    interests: [String],
+    stydying: Boolean,
+});
+
 const UserModel = mongoose.model('User', userSchema);
+const KidModel = mongoose.model('Kid', kidSchema);
 
 const readUser = async (email) => {
     try {
@@ -61,4 +74,28 @@ const createUser = async (name, password, email, isVolunteer) => {
     }
 };
 
-module.exports = { readUser, createUser };
+const readAllKids = async () => {
+    try {
+        // Connect to the MongoDB database
+        await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+        const kids = await KidModel.find();
+
+        if (kids) {
+            // Kids found
+            console.log(kids);
+            return kids;
+        } else {
+            // Kids not found
+            return null;
+        }
+    } catch (error) {
+        console.error('Error reading kids:', error);
+        return null;
+    } finally {
+        // Disconnect from the MongoDB database
+        mongoose.disconnect();
+    }
+};
+
+module.exports = { readUser, createUser, readAllKids };

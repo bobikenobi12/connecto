@@ -1,9 +1,12 @@
 const express = require('express');
+const cors = require('cors');
+
 const { readUser, createUser } = require('./mongooseUtils.js');
 const bcrypt = require('bcrypt');
 
 const router = express.Router();
 router.use(express.json());
+router.use(cors());
 
 
 
