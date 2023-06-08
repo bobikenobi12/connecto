@@ -23,20 +23,20 @@ router.get('/all', (req, res) => {
 }
 );
 
-router.post('/volunteer', (req, res) => {
+router.post('/volunteer', async (req, res) => {
     const { eventName, email } = req.body;
 
-    addVolunteerToEvent(eventName, email).then((event) => {
+    try {
+        const event = await addVolunteerToEvent(eventName, email);
         if (!event) {
-            res.status(400).send({ message: 'Couldnt add to event' });
+            res.status(400).send({ message: 'Could not add to event' });
             return;
         }
         res.json({ message: 'Volunteer added to event' });
-    }).catch((error) => {
+    } catch (error) {
         console.error('Error adding volunteer to event:', error);
         res.status(500).send({ message: 'Error adding volunteer to event' });
-    });
-}
-);
+    }
+});
 
 module.exports = router;

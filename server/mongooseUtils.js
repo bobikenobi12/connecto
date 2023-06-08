@@ -208,28 +208,25 @@ const addVolunteerToEvent = async (eventName, email) => {
         // Connect to the MongoDB database
         await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-        readUser(email).then((user) => {
-            if (user) {
-                if (user.isVolunteer) {
-                    EventModel.findOneAndUpdate({ eventName }, { $push: { volunteers: { email: user.email } } }, { new: true }, function (err, doc) {
-                        if (err) {
-                            console.log("Something wrong when updating data!");
-                        }
-                    }).then((event) => {
-                        console.log('Event updated successfully');
-                        return event;
-                    }
-                    );
-                }
-            }
-        });
+        const user = await readUser(email);
+        if (user && user.isVolunteer) {
+            const event = await EventModel.findOneAndUpdate(
+                { eventName },
+                { $push: { volunteers: { email: user.email } } },
+                { new: true }
+            ).exec();
 
+            console.log('Event updated successfully');
+            return event;
+        }
     } catch (error) {
         console.error('Error saving event:', error);
+        throw error; // Rethrow the error to be caught in the caller
     } finally {
         // Disconnect from the MongoDB database
         mongoose.disconnect();
     }
 };
+
 
 module.exports = { readUser, createUser, readAllKids, createKid, readAllEvents, addEvent, addVolunteerToEvent };
