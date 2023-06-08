@@ -141,35 +141,43 @@ export default function NavBar() {
 								</Button>
 							</Stack>
 						) : (
-							<Button
-								fontSize={"sm"}
-								fontWeight={400}
-								colorScheme="red"
-								variant={"outline"}
-								onClick={async () => {
-									try {
-										await logout().unwrap();
-										toast({
-											title: "Успешно излязохте от профила си!",
-											status: "success",
-											duration: 9000,
-											isClosable: true,
-										});
-										navigate("/");
-									} catch (err) {
-										toast({
-											title: "Възникна грешка при излизане от профила ви!",
-											description:
-												"Моля, опитайте отново!",
-											status: "error",
-											duration: 9000,
-											isClosable: true,
-										});
-									}
-								}}
+							<Stack
+								flex={{ base: 1, md: 0 }}
+								justify={"flex-end"}
+								direction={"row"}
+								spacing={6}
 							>
-								Изход
-							</Button>
+								<ThemeToggle />
+								<Button
+									fontSize={"sm"}
+									fontWeight={400}
+									colorScheme="red"
+									variant={"outline"}
+									onClick={async () => {
+										try {
+											await logout().unwrap();
+											toast({
+												title: "Успешно излязохте от профила си!",
+												status: "success",
+												duration: 9000,
+												isClosable: true,
+											});
+											navigate("/");
+										} catch (err) {
+											toast({
+												title: "Възникна грешка при излизане от профила ви!",
+												description:
+													"Моля, опитайте отново!",
+												status: "error",
+												duration: 9000,
+												isClosable: true,
+											});
+										}
+									}}
+								>
+									Изход
+								</Button>
+							</Stack>
 						)}
 					</Flex>
 				</Flex>
