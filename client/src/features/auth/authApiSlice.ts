@@ -33,6 +33,15 @@ export const authApi = apiSlice.injectEndpoints({
 				body,
 			}),
 		}),
+		logout: builder.mutation<void, void>({
+			query: () => ({
+				url: `/auth/logout`,
+				method: "POST",
+				body: {
+					refreshToken: localStorage.getItem("refreshToken"),
+				},
+			}),
+		}),
 		refreshToken: builder.mutation<{ accessToken: string }, void>({
 			query: () => ({
 				url: `/refreshAccessToken`,
@@ -42,14 +51,8 @@ export const authApi = apiSlice.injectEndpoints({
 				},
 			}),
 		}),
-		protected: builder.query<any, void>({
-			query: () => ({
-				url: `/protected`,
-				responseHandler: (res: any) => res.text(),
-			}),
-		}),
 	}),
 });
 
-export const { useRegisterMutation, useLoginMutation, useProtectedQuery } =
+export const { useRegisterMutation, useLoginMutation, useLogoutMutation } =
 	authApi;

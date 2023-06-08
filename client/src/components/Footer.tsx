@@ -1,6 +1,6 @@
 import {
 	Box,
-	chakra,
+	Button,
 	Container,
 	Link,
 	Stack,
@@ -43,13 +43,12 @@ const SocialButton = ({
 	href: string;
 }) => {
 	return (
-		<chakra.button
+		<Button
 			bg={useColorModeValue("blackAlpha.100", "whiteAlpha.100")}
 			rounded={"full"}
 			w={8}
 			h={8}
 			cursor={"pointer"}
-			as="a"
 			display={"inline-flex"}
 			alignItems={"center"}
 			justifyContent={"center"}
@@ -62,7 +61,7 @@ const SocialButton = ({
 				<VisuallyHidden>{label}</VisuallyHidden>
 				{children}
 			</Link>
-		</chakra.button>
+		</Button>
 	);
 };
 
@@ -88,10 +87,14 @@ export default function Footer() {
 					<Link as={RouterLink} to={"/about"}>
 						За нас
 					</Link>
-					<Link as={RouterLink} to={"/privacy-policy"}>
+					<Link as={RouterLink} to={"/privacy-policy"} isExternal>
 						Политика на поверителност
 					</Link>
-					<Link as={RouterLink} to={"/terms-of-service"}>
+					<Link
+						as={RouterLink}
+						to={"/terms-and-conditions"}
+						isExternal
+					>
 						Условия за ползване
 					</Link>
 				</Stack>

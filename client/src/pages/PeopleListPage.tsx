@@ -7,7 +7,7 @@ import { useGetPeopleQuery } from "../features/people/peopleApiSlice";
 export default function PeopleListPage() {
 	const { data: people, isLoading } = useGetPeopleQuery();
 
-	if (isLoading) return <div>Loading...</div>;
+	if (isLoading) return <div>Зареждане...</div>;
 
 	return (
 		<Flex
@@ -16,7 +16,6 @@ export default function PeopleListPage() {
 			justifyContent="center"
 			alignItems="center"
 			gap={6}
-			overflowY={"scroll"}
 		>
 			{people?.map((person, idx) => (
 				<PersonCard key={idx} person={person} />

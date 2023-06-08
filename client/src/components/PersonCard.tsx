@@ -22,34 +22,15 @@ export default function PersonCard({ person }: { person: Person }) {
 			p={6}
 			textAlign={"center"}
 		>
-			<Avatar
-				size={"xl"}
-				src={
-					"https://images.unsplash.com/photo-1520810627419-35e362c5dc07?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-				}
-				mb={4}
-				pos={"relative"}
-				_after={{
-					content: '""',
-					w: 4,
-					h: 4,
-					bg: "green.300",
-					border: "2px solid white",
-					rounded: "full",
-					pos: "absolute",
-					bottom: 0,
-					right: 3,
-				}}
-			/>
+			<Avatar size={"xl"} name={person.name} mb={4} bg={"blue.500"} />
 			<Heading fontSize={"2xl"} fontFamily={"body"}>
 				{person.name} - {person.age}
 			</Heading>
 			<Text fontWeight={600} color={"gray.500"} mb={4}>
-				{person.location} (
-				{person.studying ? "Studying" : "Not Studying"})
+				{person.location} ({person.studying ? "Учи" : "Не Учи"})
 			</Text>
 			<VStack align={"start"} mt={4}>
-				<Text fontWeight={600}>Languages:</Text>
+				<Text fontWeight={600}>Езици:</Text>
 
 				{person.languages.map((language, idx) => (
 					<Text key={idx}>
@@ -87,7 +68,7 @@ export default function PersonCard({ person }: { person: Person }) {
 					bg: "blue.500",
 				}}
 			>
-				View More
+				Виж повече ...
 			</Button>
 		</Box>
 	);

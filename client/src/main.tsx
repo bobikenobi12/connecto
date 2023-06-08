@@ -21,29 +21,35 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 import PeopleListPage from "./pages/PeopleListPage";
 
+import Hero from "./components/Hero";
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 	<React.StrictMode>
 		<ChakraProvider>
 			<Provider store={store}>
 				<Router>
 					<Routes>
-						<Route path="/" element={<App />} />
+						<Route element={<App />}>
+							<Route path="/" element={<Hero />} />
+							<Route
+								path="/terms-and-conditions"
+								element={<TermsAndConditions />}
+							/>
+							<Route
+								path="/privacy-policy"
+								element={<PrivacyPolicy />}
+							/>
+							<Route
+								path="/people"
+								element={<PeopleListPage />}
+							/>
+						</Route>
 						<Route path="/sign-up" element={<SignUpPage />} />
 						<Route path="/sign-in" element={<SignInPage />} />
 						<Route
 							path="/forgot-password"
 							element={<ForgotPasswordForm />}
 						/>
-						<Route
-							path="/terms-and-conditions"
-							element={<TermsAndConditions />}
-						/>
-						<Route
-							path="/privacy-policy"
-							element={<PrivacyPolicy />}
-						/>
-						<Route path="/people" element={<PeopleListPage />} />
-
 						<Route path="*" element={<h1>404</h1>} />
 					</Routes>
 				</Router>
