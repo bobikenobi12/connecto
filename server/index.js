@@ -36,11 +36,6 @@ app.get('/', (req, res) => {
 }
 );
 
-app.get('/protected', authenticateToken, (req, res) => {
-    res.send('Protected data');
-}
-);
-
 app.listen(3000, () => {
     console.log('Example app listening on localhost:3000');
 }
