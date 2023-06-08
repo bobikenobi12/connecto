@@ -24,11 +24,11 @@ router.get('/all', (req, res) => {
 );
 
 router.post('/volunteer', async (req, res) => {
-    const { eventName, email } = req.body;
+    const { name, email } = req.body;
 
     try {
         const user = await readUser(email);
-        const event = await addVolunteerToEvent(eventName, user);
+        const event = await addVolunteerToEvent(name, user);
         if (event == null) {
             res.status(400).send({ message: 'Could not add to event' });
             return;

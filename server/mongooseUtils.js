@@ -216,6 +216,12 @@ const addVolunteerToEvent = async (eventName, user) => {
         // Connect to the MongoDB database
         await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
+        test = await EventModel.findOne({ name: eventName })
+        if (test == null) {
+            console.log("couldnt find event with name", eventName)
+            return null
+        }
+
         await EventModel.findOneAndUpdate({ name: eventName }, { $push: { volunteers: user } });
         console.log('Volunteer added successfully');
         return true;

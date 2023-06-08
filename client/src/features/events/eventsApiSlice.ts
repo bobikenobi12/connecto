@@ -18,15 +18,18 @@ export const authApi = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		getEvents: builder.query<Event[], void>({
 			query: () => ({
-				url: `/events/all`,
+				url: `/events/all`
 			}),
+			providesTags: ["Volunteers"],
 		}),
 		volunteer: builder.mutation<void, VolunteerRequest>({
 			query: (body) => ({
 				url: `/events/volunteer`,
 				method: "POST",
 				body,
+
 			}),
+			invalidatesTags: ["Volunteers"],
 		}),
 	}),
 });
