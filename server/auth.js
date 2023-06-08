@@ -104,7 +104,7 @@ router.post('/register', (req, res) => {
 }
 );
 
-router.get('/logout', (req, res) => {
+router.post('/logout', (req, res) => {
     const { refreshToken } = req.body;
     if (refreshToken == null) {
         res.status(400).send('Missing refreshToken');
