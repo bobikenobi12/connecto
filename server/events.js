@@ -27,6 +27,10 @@ router.post('/volunteer', (req, res) => {
     const { eventName, email } = req.body;
 
     addVolunteerToEvent(eventName, email).then((event) => {
+        if (!event) {
+            res.status(400).send({ message: 'Couldnt add to event' });
+            return;
+        }
         res.json({ message: 'Volunteer added to event' });
     }).catch((error) => {
         console.error('Error adding volunteer to event:', error);

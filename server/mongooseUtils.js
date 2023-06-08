@@ -215,7 +215,11 @@ const addVolunteerToEvent = async (eventName, email) => {
                         if (err) {
                             console.log("Something wrong when updating data!");
                         }
-                    });
+                    }).then((event) => {
+                        console.log('Event updated successfully');
+                        return event;
+                    }
+                    );
                 }
             }
         });
