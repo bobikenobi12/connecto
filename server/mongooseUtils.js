@@ -212,9 +212,10 @@ const addEvent = async (name, description, location, date) => {
 };
 
 const addVolunteerToEvent = async (eventName, email) => {
+    let connection;
     try {
         // Connect to the MongoDB database
-        await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+        connection = await mongoose.createConnection(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
         const user = await readUser(email);
         if (user && user.isVolunteer) {
@@ -232,7 +233,9 @@ const addVolunteerToEvent = async (eventName, email) => {
         throw error; // Rethrow the error to be caught in the caller
     } finally {
         // Disconnect from the MongoDB database
-        mongoose.disconnect();
+        if (connection) {
+            connection.close();
+        }
     }
 };
 
