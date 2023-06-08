@@ -19,6 +19,8 @@ import ForgotPasswordForm from "./pages/ForgotPassword";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 
+import PeopleListPage from "./pages/PeopleListPage";
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 	<React.StrictMode>
 		<ChakraProvider>
@@ -40,6 +42,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 							path="/privacy-policy"
 							element={<PrivacyPolicy />}
 						/>
+						<Route path="/people" element={<PeopleListPage />} />
 
 						<Route path="*" element={<h1>404</h1>} />
 					</Routes>
