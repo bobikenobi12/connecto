@@ -30,7 +30,7 @@ const eventSchema = new mongoose.Schema({
     description: String,
     location: String,
     date: Date,
-    volunteers: [{ email: String }]
+    volunteers: [{ email: String, name: String, isVolunteer: Boolean }]
 });
 
 
@@ -149,22 +149,30 @@ const readAllEvents = async () => {
         // Connect to the MongoDB database
         await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-        const events = await EventModel.find();
+        eventsToReturn = [];
+
+        let events = await EventModel.find();
 
         for (let i = 0; i < events.length; i++) {
-            const event = events[i];
-            const volunteers = event.volunteers;
+            let eventInItteration = events[i];
 
-            for (let j = 0; j < volunteers.length; j++) {
-                user = await readUser(volunteers[j].email);
-                delete user.password;
-                events[i].volunteers[j] = user;
+            let volunteers = [];
+
+            for (let j = 0; j < eventInItteration.volunteers.length; j++) {
+                let volunteer = await readUser(eventInItteration.volunteers[j].email);
+                volunteers.push(volunteer);
             }
+
+
+            eventInItteration.volunteers = volunteers;
+            eventsToReturn.push(eventInItteration);
         }
+
+
 
         if (events) {
             // Events found
-            return events;
+            return eventsToReturn;
         } else {
             // Events not found
             return null;
