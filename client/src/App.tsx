@@ -1,14 +1,13 @@
 import Footer from "./components/Footer";
+import NavBar from "./components/Navbar";
 
-import { useProtectedQuery } from "./features/auth/authApiSlice";
+import { Outlet } from "react-router-dom";
 
 function App() {
-	const { isLoading } = useProtectedQuery();
-
-	if (isLoading) return <div>Loading...</div>;
-
 	return (
 		<>
+			<NavBar />
+			<Outlet />
 			<Footer />
 		</>
 	);

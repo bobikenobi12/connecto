@@ -45,11 +45,10 @@ export default function PersonCard({ person }: { person: Person }) {
 				{person.name} - {person.age}
 			</Heading>
 			<Text fontWeight={600} color={"gray.500"} mb={4}>
-				{person.location} (
-				{person.studying ? "Studying" : "Not Studying"})
+				{person.location} ({person.studying ? "Учи" : "Не Учи"})
 			</Text>
 			<VStack align={"start"} mt={4}>
-				<Text fontWeight={600}>Languages:</Text>
+				<Text fontWeight={600}>Езици:</Text>
 
 				{person.languages.map((language, idx) => (
 					<Text key={idx}>
@@ -87,7 +86,7 @@ export default function PersonCard({ person }: { person: Person }) {
 					bg: "blue.500",
 				}}
 			>
-				View More
+				Виж повече ...
 			</Button>
 		</Box>
 	);

@@ -48,6 +48,11 @@ export const authSlice = createSlice({
 				localStorage.setItem("refreshToken", refreshToken);
 			}
 		);
+		builder.addMatcher(authApi.endpoints.logout.matchFulfilled, (state) => {
+			state.token = null;
+			localStorage.removeItem("token");
+			localStorage.removeItem("refreshToken");
+		});
 	},
 });
 
