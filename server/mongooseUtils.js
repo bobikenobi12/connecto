@@ -211,31 +211,21 @@ const addEvent = async (name, description, location, date) => {
     }
 };
 
-const addVolunteerToEvent = async (eventName, email) => {
-    let connection;
+const addVolunteerToEvent = async (eventName, user) => {
     try {
         // Connect to the MongoDB database
-        connection = await mongoose.createConnection(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+        await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-        const user = await readUser(email);
-        if (user && user.isVolunteer) {
-            const event = await EventModel.findOneAndUpdate(
-                { eventName },
-                { $push: { volunteers: { email: user.email } } },
-                { new: true }
-            ).exec();
+        await EventModel.findOneAndUpdate({ name: eventName }, { $push: { volunteers: user } });
+        console.log('Volunteer added successfully');
+        return true;
 
-            console.log('Event updated successfully');
-            return event;
-        }
     } catch (error) {
-        console.error('Error saving event:', error);
-        throw error; // Rethrow the error to be caught in the caller
+        console.error('Error adding volunteer', error);
+        return null;
     } finally {
         // Disconnect from the MongoDB database
-        if (connection) {
-            connection.close();
-        }
+        mongoose.disconnect();
     }
 };
 

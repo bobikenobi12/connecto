@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { readAllEvents, addVolunteerToEvent } = require('./mongooseUtils');
+const { readAllEvents, addVolunteerToEvent, readUser } = require('./mongooseUtils');
 
 router = express.Router();
 router.use(express.json());
@@ -27,8 +27,9 @@ router.post('/volunteer', async (req, res) => {
     const { eventName, email } = req.body;
 
     try {
-        const event = await addVolunteerToEvent(eventName, email);
-        if (!event) {
+        const user = await readUser(email);
+        const event = await addVolunteerToEvent(eventName, user);
+        if (event == null) {
             res.status(400).send({ message: 'Could not add to event' });
             return;
         }
