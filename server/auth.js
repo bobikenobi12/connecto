@@ -10,7 +10,6 @@ const router = express.Router();
 router.use(express.json());
 router.use(cors());
 
-const secretKey = 'your-secret-key';
 
 
 router.get('/', (req, res) => {
@@ -37,7 +36,8 @@ router.post('/login', (req, res) => {
                 if (result) {
                     // password match
                     console.log('User logged in');
-                    res.json({ token, refreshToken });
+                    delete user.password;
+                    res.json({ token, refreshToken, user });
                 }
                 else {
                     // password mismatch
@@ -87,7 +87,8 @@ router.post('/register', (req, res) => {
                     token = generateAccessToken(refreshToken);
 
                     console.log('User created');
-                    res.json({ token, refreshToken });
+                    delete user.password;
+                    res.json({ token, refreshToken, user });
                 }
                 );
             }
