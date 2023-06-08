@@ -40,9 +40,8 @@ function generateRefreshToken(email) {
 function removeRefreshToken(token) {
     refreshTokens = refreshTokens.filter(t => t !== token);
     delete refreshTokensToEmail[token];
+    return true;
 }
-
-
 
 module.exports = {
     authenticateToken,

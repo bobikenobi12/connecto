@@ -104,6 +104,27 @@ router.post('/register', (req, res) => {
 }
 );
 
+router.get('/logout', (req, res) => {
+    const { refreshToken } = req.body;
+    if (refreshToken == null) {
+        res.status(400).send('Missing refreshToken');
+        console.log('Missing refreshToken');
+        return;
+    }
+    removeRefreshToken(refreshToken).then((result) => {
+        if (result) {
+            console.log('Refresh token removed');
+
+            res.status(200).send('Refresh token removed');
+        } else {
+            console.log('Refresh token not found');
+        }
+    }).catch((error) => {
+        console.error('Error removing refresh token:', error);
+        res.status(500).send('Error removing refresh token');
+    });
+}
+);
 
 
 module.exports = router;

@@ -12,6 +12,7 @@ router.get('/', (req, res) => {
 
 router.get('/:image', (req, res) => {
     const { image } = req.params;
+
     res.sendFile(image, { root: './images' });
 }
 );

@@ -24,8 +24,20 @@ const kidSchema = new mongoose.Schema({
     imageURL: String,
 });
 
+const eventSchema = new mongoose.Schema({
+    id: String,
+    name: String,
+    description: String,
+    location: String,
+    date: Date,
+    time: String,
+    volunteers: [{ email: String }]
+});
+
+
 const UserModel = mongoose.model('User', userSchema);
 const KidModel = mongoose.model('Kid', kidSchema);
+const EventModel = mongoose.model('Event', eventSchema);
 
 const readUser = async (email) => {
     try {
@@ -133,4 +145,89 @@ const readAllKids = async () => {
     }
 };
 
-module.exports = { readUser, createUser, readAllKids, createKid };
+const readAllEvents = async () => {
+    try {
+        // Connect to the MongoDB database
+        await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+        const events = await EventModel.find();
+
+        for (let i = 0; i < events.length; i++) {
+            const event = events[i];
+            const volunteers = event.volunteers;
+
+            for (let j = 0; j < volunteers.length; j++) {
+                const volunteer = volunteers[j];
+                events[i].volunteers[j] = await readUser(volunteer.email);
+                volunteer.name = volunteerUser.name;
+            }
+        }
+
+        if (events) {
+            // Events found
+            return events;
+        } else {
+            // Events not found
+            return null;
+        }
+    } catch (error) {
+        console.error('Error reading events:', error);
+        return null;
+    } finally {
+        // Disconnect from the MongoDB database
+        mongoose.disconnect();
+    }
+};
+
+const addEvent = async (name, description, location, date, time) => {
+    try {
+        // Connect to the MongoDB database
+        await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+        const event = new EventModel({
+            name,
+            description,
+            location,
+            date,
+            time,
+        });
+
+        await event.save();
+        console.log('Event saved successfully');
+        return event;
+    } catch (error) {
+        console.error('Error saving event:', error);
+        return null;
+    } finally {
+        // Disconnect from the MongoDB database
+        mongoose.disconnect();
+    }
+};
+
+const addVolunteerToEvent = async (eventName, email) => {
+    try {
+        // Connect to the MongoDB database
+        await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+        readUser(email).then((user) => {
+            if (user) {
+                if (user.isVolunteer) {
+                    EventModel.findOneAndUpdate({ eventName }, { $push: { volunteers: { email: user.email } } }, { new: true }, function (err, doc) {
+                        if (err) {
+                            console.log("Something wrong when updating data!");
+                        }
+                    });
+                }
+            }
+        });
+
+    } catch (error) {
+        console.error('Error saving event:', error);
+        return null;
+    } finally {
+        // Disconnect from the MongoDB database
+        mongoose.disconnect();
+    }
+};
+
+module.exports = { readUser, createUser, readAllKids, createKid, readAllEvents };
