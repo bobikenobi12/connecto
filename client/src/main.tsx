@@ -23,6 +23,8 @@ import PeopleListPage from "./pages/PeopleListPage";
 
 import Hero from "./components/Hero";
 
+import Events from "./pages/Events";
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 	<React.StrictMode>
 		<ChakraProvider>
@@ -43,6 +45,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 								path="/people"
 								element={<PeopleListPage />}
 							/>
+							<Route path="/events" element={<Events />} />8
 						</Route>
 						<Route path="/sign-up" element={<SignUpPage />} />
 						<Route path="/sign-in" element={<SignInPage />} />

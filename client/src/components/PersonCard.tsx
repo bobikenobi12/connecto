@@ -8,11 +8,23 @@ import {
 	Badge,
 	useColorModeValue,
 	VStack,
+	Modal,
+	ModalOverlay,
+	ModalContent,
+	ModalHeader,
+	ModalFooter,
+	ModalBody,
+	ModalCloseButton,
+	useDisclosure,
+	Textarea,
+	HStack,
 } from "@chakra-ui/react";
 
 import { type Person } from "../features/people/peopleApiSlice";
 
 export default function PersonCard({ person }: { person: Person }) {
+	const { isOpen, onOpen, onClose } = useDisclosure();
+
 	return (
 		<Box
 			w={"320px"}
@@ -67,9 +79,57 @@ export default function PersonCard({ person }: { person: Person }) {
 				_focus={{
 					bg: "blue.500",
 				}}
+				onClick={onOpen}
 			>
 				Виж повече ...
 			</Button>
+			<Modal isOpen={isOpen} onClose={onClose}>
+				<ModalOverlay />
+				<ModalContent>
+					<ModalHeader>
+						{person.name}-{person.age} години
+					</ModalHeader>
+					<ModalCloseButton />
+					<ModalBody>
+						<HStack spacing={10}>
+							<VStack>
+								<Text>Град: {person.location}</Text>
+								<Text>
+									Учи ли: {person.studying ? "Да" : "Не"}
+								</Text>
+								<Text>Интереси:</Text>
+								{person.interests.map((interest, idx) => (
+									<Text key={idx}>#{interest}</Text>
+								))}
+								<Text>Описание:</Text>
+								<Textarea
+									isReadOnly
+									value={person.description}
+								/>
+							</VStack>
+							<VStack>
+								<Avatar
+									size={"xl"}
+									name={person.name}
+									mb={4}
+									bg={"blue.500"}
+								/>
+								<Text>Езици:</Text>
+								{person.languages.map((language, idx) => (
+									<Text key={idx}>
+										{language.language} ({language.level})
+									</Text>
+								))}
+							</VStack>
+						</HStack>
+					</ModalBody>
+					<ModalFooter>
+						<Button colorScheme="blue" mr={3} onClick={onClose}>
+							Затвори
+						</Button>
+					</ModalFooter>
+				</ModalContent>
+			</Modal>
 		</Box>
 	);
 }

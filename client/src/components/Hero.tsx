@@ -7,11 +7,16 @@ import {
 	Button,
 	Icon,
 	IconProps,
+	useColorModeValue,
 } from "@chakra-ui/react";
 
 export default function Hero() {
 	return (
-		<Container maxW={"5xl"}>
+		<Container
+			bg={useColorModeValue("gray.50", "gray.800")}
+			minW={"full"}
+			m={0}
+		>
 			<Stack
 				textAlign={"center"}
 				align={"center"}

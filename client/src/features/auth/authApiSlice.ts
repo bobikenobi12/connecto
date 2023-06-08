@@ -1,5 +1,11 @@
 import { apiSlice } from "../../app/api/apiSlice";
 
+export interface User {
+	email: string;
+	name: string;
+	isVolunteer: boolean;
+}
+
 export interface RegisterRequest {
 	email: string;
 	password: string;
@@ -12,21 +18,22 @@ export interface LoginRequest {
 	password: string;
 }
 
-export interface Tokens {
+export interface AuthResponse {
+	user: User;
 	token: string;
 	refreshToken: string;
 }
 
 export const authApi = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
-		register: builder.mutation<Tokens, RegisterRequest>({
+		register: builder.mutation<AuthResponse, RegisterRequest>({
 			query: (body) => ({
 				url: `/auth/register`,
 				method: "POST",
 				body,
 			}),
 		}),
-		login: builder.mutation<Tokens, LoginRequest>({
+		login: builder.mutation<AuthResponse, LoginRequest>({
 			query: (body) => ({
 				url: `/auth/login`,
 				method: "POST",

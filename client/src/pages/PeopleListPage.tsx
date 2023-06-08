@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react";
+import { Flex, useColorModeValue } from "@chakra-ui/react";
 
 import PersonCard from "../components/PersonCard";
 
@@ -16,6 +16,7 @@ export default function PeopleListPage() {
 			justifyContent="center"
 			alignItems="center"
 			gap={6}
+			bg={useColorModeValue("gray.100", "gray.800")}
 		>
 			{people?.map((person, idx) => (
 				<PersonCard key={idx} person={person} />
