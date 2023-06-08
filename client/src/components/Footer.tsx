@@ -8,7 +8,7 @@ import {
 	useColorModeValue,
 	VisuallyHidden,
 } from "@chakra-ui/react";
-import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 import { ReactNode } from "react";
 
 import { Link as RouterLink } from "react-router-dom";
@@ -49,8 +49,7 @@ const SocialButton = ({
 			w={8}
 			h={8}
 			cursor={"pointer"}
-			as={"a"}
-			href={href}
+			as="a"
 			display={"inline-flex"}
 			alignItems={"center"}
 			justifyContent={"center"}
@@ -59,8 +58,10 @@ const SocialButton = ({
 				bg: useColorModeValue("blackAlpha.200", "whiteAlpha.200"),
 			}}
 		>
-			<VisuallyHidden>{label}</VisuallyHidden>
-			{children}
+			<Link as={RouterLink} to={href} isExternal>
+				<VisuallyHidden>{label}</VisuallyHidden>
+				{children}
+			</Link>
 		</chakra.button>
 	);
 };
@@ -112,13 +113,26 @@ export default function Footer() {
 				>
 					<Text>© 2023 Pupe6 Inc. Всички права запазени</Text>
 					<Stack direction={"row"} spacing={6}>
-						<SocialButton label={"Twitter"} href={"#"}>
+						<SocialButton
+							label={"Facebook"}
+							href={
+								"https://www.facebook.com/profile.php?id=100093563732667"
+							}
+						>
+							<FaFacebook />
+						</SocialButton>
+						<SocialButton
+							label={"Twitter"}
+							href={"https://twitter.com/ConnectifySupp"}
+						>
 							<FaTwitter />
 						</SocialButton>
-						<SocialButton label={"YouTube"} href={"#"}>
-							<FaYoutube />
-						</SocialButton>
-						<SocialButton label={"Instagram"} href={"#"}>
+						<SocialButton
+							label={"Instagram"}
+							href={
+								"https://www.instagram.com/connectify_campaign/"
+							}
+						>
 							<FaInstagram />
 						</SocialButton>
 					</Stack>
