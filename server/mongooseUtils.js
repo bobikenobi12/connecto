@@ -156,9 +156,9 @@ const readAllEvents = async () => {
             const volunteers = event.volunteers;
 
             for (let j = 0; j < volunteers.length; j++) {
-                const volunteer = volunteers[j];
-                events[i].volunteers[j] = await readUser(volunteer.email);
-                volunteer.name = volunteerUser.name;
+                user = await readUser(volunteers[j].email);
+                delete user.password;
+                events[i].volunteers[j] = user;
             }
         }
 
@@ -178,7 +178,7 @@ const readAllEvents = async () => {
     }
 };
 
-const addEvent = async (name, description, location, date, time) => {
+const addEvent = async (name, description, location, date) => {
     try {
         // Connect to the MongoDB database
         await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -188,6 +188,7 @@ const addEvent = async (name, description, location, date, time) => {
             description,
             location,
             date,
+            volunteers: [],
         });
 
         await event.save();
@@ -221,11 +222,10 @@ const addVolunteerToEvent = async (eventName, email) => {
 
     } catch (error) {
         console.error('Error saving event:', error);
-        return null;
     } finally {
         // Disconnect from the MongoDB database
         mongoose.disconnect();
     }
 };
 
-module.exports = { readUser, createUser, readAllKids, createKid, readAllEvents };
+module.exports = { readUser, createUser, readAllKids, createKid, readAllEvents, addEvent, addVolunteerToEvent };

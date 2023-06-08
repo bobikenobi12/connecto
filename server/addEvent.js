@@ -1,11 +1,11 @@
 const { addEvent } = require('./mongooseUtils.js');
 
-eventName = 'test';
+eventName = 'Готвене на бисквитки';
 date = new Date();
-location = 'test';
-description = 'test';
+location = 'у нас';
+description = 'Ще си изпечем бисквитки 🍪';
 
-addEvent(eventName, date, location, description).then((event) => {
+addEvent(eventName, description, location, date).then((event) => {
     console.log(event);
 }
 ).catch((error) => {
