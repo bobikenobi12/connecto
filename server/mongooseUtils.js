@@ -30,7 +30,6 @@ const eventSchema = new mongoose.Schema({
     description: String,
     location: String,
     date: Date,
-    time: String,
     volunteers: [{ email: String }]
 });
 
@@ -189,7 +188,6 @@ const addEvent = async (name, description, location, date, time) => {
             description,
             location,
             date,
-            time,
         });
 
         await event.save();

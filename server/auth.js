@@ -73,13 +73,13 @@ router.post('/register', (req, res) => {
         if (user) {
             // user already exists
             console.log('User already exists');
-            res.status(409).send('User already exists');
+            res.status(409).send({ message: 'User already exists' });
         } else {
             // user does not exist
             try {
                 createUser(name, password, email, isVolunteer).then((user) => {
                     if (!user) {
-                        res.status(500).send('Error creating user');
+                        res.status(500).send({ message: 'Error creating user' });
                         return;
                     }
 
@@ -94,12 +94,12 @@ router.post('/register', (req, res) => {
             catch (error) {
                 console.error('Error creating user:', error);
 
-                res.status(500).send('Error creating user');
+                res.status(500).send({ message: 'Error creating user' });
             }
         }
     }).catch((error) => {
         console.error('Error reading user:', error);
-        res.status(500).send('Error reading user');
+        res.status(500).send({ message: 'Error reading user' });
     });
 }
 );
@@ -107,11 +107,12 @@ router.post('/register', (req, res) => {
 router.post('/logout', (req, res) => {
     const { refreshToken } = req.body;
     if (refreshToken == null) {
-        res.status(400).send('Missing refreshToken');
+        res.status(400).send({ message: 'Missing refreshToken' });
         console.log('Missing refreshToken');
         return;
     }
     removeRefreshToken(refreshToken)
+    res.status(200).send({ message: 'User logged out' });
 }
 );
 
