@@ -16,7 +16,6 @@ export default function PeopleListPage() {
 			justifyContent="center"
 			alignItems="center"
 			gap={6}
-			overflowY={"scroll"}
 		>
 			{people?.map((person, idx) => (
 				<PersonCard key={idx} person={person} />
