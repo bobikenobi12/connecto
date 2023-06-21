@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const https = require('https');
+const fs = require('fs');
 
 const { authenticateToken, generateAccessToken, generateRefreshToken, removeRefreshToken } = require('./jwtUtils');
 
@@ -36,8 +38,18 @@ app.get('/', (req, res) => {
 }
 );
 
-app.listen(3000, () => {
+const httpsServer = https.createServer({
+    key: fs.readFileSync('server.key'),
+    cert: fs.readFileSync('server.cert')
+}, app);
+
+httpsServer.listen(3000, () => {
     console.log('Example app listening on localhost:3000');
 }
 );
+
+// app.listen(3000, () => {
+//     console.log('Example app listening on localhost:3000');
+// }
+// );
 
