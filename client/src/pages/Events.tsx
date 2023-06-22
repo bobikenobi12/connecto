@@ -21,6 +21,7 @@ import {
 	PopoverArrow,
 	PopoverCloseButton,
 	useColorModeValue,
+	Skeleton,
 } from "@chakra-ui/react";
 
 import { CalendarIcon, InfoIcon, QuestionOutlineIcon } from "@chakra-ui/icons";
@@ -41,6 +42,72 @@ import {
 
 import { useNavigate } from "react-router-dom";
 
+function EventsSkeleton() {
+	return (
+		<Box minH="100vh" bg={useColorModeValue("gray.100", "gray.800")}>
+			<Accordion allowToggle>
+				{Array.from(Array(5)).map((_, idx) => (
+					<AccordionItem key={idx}>
+						<h2>
+							<AccordionButton>
+								<Box as="span" flex="1" textAlign="left">
+									<Skeleton height="20px" width="100%" />
+								</Box>
+								<AccordionIcon />
+							</AccordionButton>
+						</h2>
+						<AccordionPanel pb={4}>
+							<Flex
+								justifyContent="center"
+								alignItems="center"
+								direction={["column", "row"]}
+								gap={6}
+							>
+								<List spacing={3}>
+									<ListItem>
+										<ListIcon
+											as={CalendarIcon}
+											color="green.500"
+										/>
+										<Skeleton height="20px" width="100%" />
+									</ListItem>
+									<ListItem>
+										<ListIcon
+											as={QuestionOutlineIcon}
+											color="green.500"
+										/>
+										<Skeleton height="20px" width="100%" />
+									</ListItem>
+									<ListItem>
+										<ListIcon
+											as={InfoIcon}
+											color="green.500"
+										/>
+										<Skeleton height="20px" width="100%" />
+									</ListItem>
+								</List>
+								<AvatarGroup
+									size="md"
+									max={5}
+									gap={4}
+									flexDirection={["column", "row"]}
+								>
+									{Array.from(Array(5)).map((_, idx) => (
+										<Avatar key={idx} />
+									))}
+								</AvatarGroup>
+								<Button colorScheme="green" isDisabled>
+									Запиши се
+								</Button>
+							</Flex>
+						</AccordionPanel>
+					</AccordionItem>
+				))}
+			</Accordion>
+		</Box>
+	);
+}
+
 export default function Events() {
 	const token = useAppSelector(selectToken);
 	const isVolunteer = useAppSelector(selectIsVolunteer);
@@ -53,7 +120,7 @@ export default function Events() {
 
 	const { data: events, isLoading } = useGetEventsQuery();
 
-	if (isLoading) return <div>Зареждане...</div>;
+	if (isLoading) return <EventsSkeleton />;
 
 	return (
 		<Box minH="100vh" bg={useColorModeValue("gray.100", "gray.800")}>

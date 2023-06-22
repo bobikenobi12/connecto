@@ -9,6 +9,7 @@ import {
 	useColorModeValue,
 	Stack,
 	useToast,
+	Image,
 } from "@chakra-ui/react";
 
 import { useNavigate, Link as RouterLink } from "react-router-dom";
@@ -48,7 +49,14 @@ export default function NavBar() {
 						onClick={isOpen ? onClose : onOpen}
 					/>
 					<HStack spacing={8} alignItems={"center"}>
-						<Box>Logo</Box>
+						<Box>
+							<Image
+								src={"/logo.png"}
+								alt={"Connectify"}
+								width={"40px"}
+								height={"40px"}
+							/>
+						</Box>
 						<HStack
 							as={"nav"}
 							spacing={4}
