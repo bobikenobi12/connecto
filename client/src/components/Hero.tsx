@@ -28,13 +28,13 @@ export default function Hero() {
 					fontSize={{ base: "3xl", sm: "4xl", md: "6xl" }}
 					lineHeight={"110%"}
 				>
-					Работа за емигранти{" "}
+					Интегриране на емигранти в{" "}
 					<Text as={"span"} color={"blue.400"}>
-						предоставена лесно
+						българското общество
 					</Text>
 				</Heading>
 				<Text color={"gray.500"} maxW={"3xl"}>
-					Connectify - свързвайки емигранти и компании по света,
+					Connectify - свързвайки емигранти и компании в България,
 					заедно постигаме успех и преодоляваме граници.
 				</Text>
 				<Stack spacing={6} direction={"row"}>
