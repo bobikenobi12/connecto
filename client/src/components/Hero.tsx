@@ -10,7 +10,15 @@ import {
 	useColorModeValue,
 } from "@chakra-ui/react";
 
+import { useNavigate } from "react-router-dom";
+
+import { useAppSelector } from "../app/hooks";
+import { selectToken } from "../features/auth/authSlice";
+
 export default function Hero() {
+	const navigate = useNavigate();
+	const token = useAppSelector(selectToken);
+
 	return (
 		<Container
 			bg={useColorModeValue("gray.50", "gray.800")}
@@ -44,10 +52,17 @@ export default function Hero() {
 						colorScheme={"blue"}
 						bg={"blue.400"}
 						_hover={{ bg: "blue.500" }}
+						onClick={() =>
+							navigate(!token ? "/sign-up" : "/people")
+						}
 					>
-						Започни сега
+						{!token ? "Регистрирай се" : "Виж хора"}
 					</Button>
-					<Button rounded={"full"} px={6}>
+					<Button
+						rounded={"full"}
+						px={6}
+						onClick={() => navigate("/events")}
+					>
 						Научи повече
 					</Button>
 				</Stack>

@@ -174,6 +174,12 @@ export default function SignInPage() {
 							>
 								Влез
 							</Button>
+							<Link
+								color={"blue.500"}
+								onClick={() => navigate("/sign-up")}
+							>
+								Нямате акаунт? Регистрирайте се
+							</Link>
 						</Stack>
 					</form>
 				</Stack>

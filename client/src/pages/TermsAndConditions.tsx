@@ -5,13 +5,14 @@ import {
 	ListItem,
 	OrderedList,
 	Button,
+	useColorModeValue,
 } from "@chakra-ui/react";
 
 import { Link as RouterLink } from "react-router-dom";
 
 export default function TermsAndConditions(): JSX.Element {
 	return (
-		<Box minH={"100vh"} p={6}>
+		<Box minH={"100vh"} p={6} bg={useColorModeValue("gray.50", "gray.800")}>
 			<Heading as="h1" mb={4}>
 				Добре дошли на страницата с общи условия за използване на нашата
 				платформа Connectify
